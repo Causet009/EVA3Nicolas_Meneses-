@@ -9,6 +9,26 @@ Catálogo de Cómics
 <h1>Catálogo de Cómics</h1>
 
 <style>
+    .filtros {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+    }
+
+    .filtros form {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .filtros input,
+    .filtros select,
+    .filtros button {
+        padding: 10px;
+        font-size: 16px;
+    }
+
     .catalogo {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -39,6 +59,42 @@ Catálogo de Cómics
         font-weight: bold;
     }
 </style>
+
+<div class="filtros">
+    <form method="get">
+
+        <input
+            type="text"
+            name="q"
+            placeholder="Buscar por título"
+            value="{{ busqueda }}"
+        >
+
+        <select name="editorial">
+            <option value="">Todas las editoriales</option>
+
+            {% for editorial in editoriales %}
+                <option
+                    value="{{ editorial.id }}"
+                    {% if editorial_seleccionada == editorial.id|stringformat:"s" %}
+                        selected
+                    {% endif %}
+                >
+                    {{ editorial.nombre }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">
+            Buscar
+        </button>
+
+        <a href="/">
+            Limpiar
+        </a>
+
+    </form>
+</div>
 
 <div class="catalogo">
 
