@@ -25,6 +25,11 @@ class Comic(models.Model):
     stock = models.PositiveIntegerField(default=0)
     disponible = models.BooleanField(default=True)
     descripcion = models.TextField(blank=True)
+    portada = models.ImageField(
+        upload_to='portadas/',
+        blank=True,
+        null=True
+    )
 
     class Meta:
         ordering = ['titulo']
