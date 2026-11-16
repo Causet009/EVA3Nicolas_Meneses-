@@ -1,5 +1,8 @@
-from django.shortcuts import get_object_or_404, render
+import uuid
 
+from django.shortcuts import get_object_or_404, redirect, render
+
+from .forms import ReservaForm
 from .models import Comic, Editorial
 
 
@@ -36,10 +39,28 @@ def detalle_comic(request, comic_id):
         disponible=True
     )
 
+    if request.method == 'POST':
+        formulario = ReservaForm(request.POST)
+
+        if formulario.is_valid():
+            reserva = formulario.save(commit=False)
+            reserva.comic = comic
+            reserva.codigo = uuid.uuid4().hex[:10].upper()
+            reserva.save()
+
+            return redirect(
+                'detalle_comic',
+                comic_id=comic.id
+            )
+
+    else:
+        formulario = ReservaForm()
+
     return render(
         request,
         'comics/detalle.html',
         {
-            'comic': comic
+            'comic': comic,
+            'formulario': formulario,
         }
     )
