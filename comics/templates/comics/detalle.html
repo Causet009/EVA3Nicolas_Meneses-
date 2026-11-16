@@ -1,0 +1,68 @@
+{% extends 'comics/base.html' %}
+
+{% block title %}
+{{ comic.titulo }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .detalle {
+        background-color: white;
+        padding: 25px;
+        border-radius: 8px;
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 30px;
+    }
+
+    .detalle img {
+        width: 100%;
+        border-radius: 8px;
+    }
+
+    .precio {
+        font-size: 24px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="detalle">
+
+    <div>
+        {% if comic.portada %}
+            <img src="{{ comic.portada.url }}" alt="{{ comic.titulo }}">
+        {% endif %}
+    </div>
+
+    <div>
+        <h1>{{ comic.titulo }}</h1>
+
+        <p><strong>Editorial:</strong> {{ comic.editorial }}</p>
+
+        <p><strong>Tomo:</strong> {{ comic.numero_tomo }}</p>
+
+        <p class="precio">
+            ${{ comic.precio }}
+        </p>
+
+        <p>
+            <strong>Tapa dura:</strong>
+            {% if comic.tapa_dura %}
+                Sí
+            {% else %}
+                No
+            {% endif %}
+        </p>
+
+        <p><strong>Stock:</strong> {{ comic.stock }}</p>
+
+        <p><strong>Descripción:</strong></p>
+        <p>{{ comic.descripcion }}</p>
+
+        <a href="/">Volver al catálogo</a>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -106,7 +106,11 @@ Catálogo de Cómics
                 <img src="{{ comic.portada.url }}" alt="{{ comic.titulo }}">
             {% endif %}
 
-            <h2>{{ comic.titulo }}</h2>
+          <h2>
+    <a href="{% url 'detalle_comic' comic.id %}">
+        {{ comic.titulo }}
+    </a>
+</h2>
 
             <p>
                 Editorial: {{ comic.editorial }}
