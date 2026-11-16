@@ -36,3 +36,23 @@ class Comic(models.Model):
 
     def __str__(self):
         return f"{self.titulo} - Tomo {self.numero_tomo}"
+
+
+class Reserva(models.Model):
+    comic = models.ForeignKey(
+        Comic,
+        on_delete=models.CASCADE,
+        related_name='reservas'
+    )
+    nombre = models.CharField(max_length=100)
+    email = models.EmailField()
+    rut = models.CharField(max_length=12)
+    cantidad = models.PositiveIntegerField()
+    fecha_reserva = models.DateTimeField(auto_now_add=True)
+    codigo = models.CharField(max_length=20, unique=True)
+
+    class Meta:
+        ordering = ['-fecha_reserva']
+
+    def __str__(self):
+        return f"{self.codigo} - {self.nombre} - {self.comic}"

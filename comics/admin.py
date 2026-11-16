@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Comic, Editorial
+from .models import Comic, Editorial, Reserva
 
 
 @admin.register(Editorial)
@@ -33,3 +33,24 @@ class ComicAdmin(admin.ModelAdmin):
     @admin.display(description='Precio')
     def precio_clp(self, obj):
         return f"${obj.precio:,.0f}".replace(',', '.')
+
+
+@admin.register(Reserva)
+class ReservaAdmin(admin.ModelAdmin):
+    list_display = (
+        'codigo',
+        'comic',
+        'nombre',
+        'rut',
+        'cantidad',
+        'fecha_reserva',
+    )
+
+    list_filter = (
+        'comic',
+    )
+
+    search_fields = (
+        'nombre',
+        'rut',
+    )
