@@ -52,6 +52,12 @@
     .errorlist {
         color: #b00020;
     }
+
+    .agotado {
+        color: #b00020;
+        font-weight: bold;
+        font-size: 18px;
+    }
 </style>
 
 <div class="detalle">
@@ -91,7 +97,12 @@
 
         <p>
             <strong>Stock:</strong>
-            {{ comic.stock }}
+
+            {% if comic.stock == 0 %}
+                <span class="agotado">Agotado</span>
+            {% else %}
+                {{ comic.stock }}
+            {% endif %}
         </p>
 
         <p>
@@ -105,15 +116,25 @@
         <div class="reserva">
             <h2>Reservar este cómic</h2>
 
-            <form method="post">
-                {% csrf_token %}
+            {% if comic.stock == 0 %}
 
-                {{ formulario.as_p }}
+                <p class="agotado">
+                    Este cómic está agotado.
+                </p>
 
-                <button type="submit">
-                    Reservar
-                </button>
-            </form>
+            {% else %}
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {{ formulario.as_p }}
+
+                    <button type="submit">
+                        Reservar
+                    </button>
+                </form>
+
+            {% endif %}
         </div>
 
         <p>

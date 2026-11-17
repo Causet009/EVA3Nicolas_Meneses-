@@ -43,15 +43,33 @@ def detalle_comic(request, comic_id):
         formulario = ReservaForm(request.POST)
 
         if formulario.is_valid():
-            reserva = formulario.save(commit=False)
-            reserva.comic = comic
-            reserva.codigo = uuid.uuid4().hex[:10].upper()
-            reserva.save()
+            cantidad = formulario.cleaned_data['cantidad']
 
-            return redirect(
-                'detalle_comic',
-                comic_id=comic.id
-            )
+            if comic.stock == 0:
+                formulario.add_error(
+                    'cantidad',
+                    'Este cómic está agotado.'
+                )
+
+            elif cantidad > comic.stock:
+                formulario.add_error(
+                    'cantidad',
+                    f'Solo hay {comic.stock} unidades disponibles.'
+                )
+
+            else:
+                reserva = formulario.save(commit=False)
+                reserva.comic = comic
+                reserva.codigo = uuid.uuid4().hex[:10].upper()
+                reserva.save()
+
+                comic.stock -= cantidad
+                comic.save()
+
+                return redirect(
+                    'detalle_comic',
+                    comic_id=comic.id
+                )
 
     else:
         formulario = ReservaForm()
