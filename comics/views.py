@@ -3,7 +3,7 @@ import uuid
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ReservaForm
-from .models import Comic, Editorial
+from .models import Comic, Editorial, Reserva
 
 
 def catalogo(request):
@@ -67,8 +67,8 @@ def detalle_comic(request, comic_id):
                 comic.save()
 
                 return redirect(
-                    'detalle_comic',
-                    comic_id=comic.id
+                    'comprobante',
+                    codigo=reserva.codigo
                 )
 
     else:
@@ -80,5 +80,23 @@ def detalle_comic(request, comic_id):
         {
             'comic': comic,
             'formulario': formulario,
+        }
+    )
+
+
+def comprobante(request, codigo):
+    reserva = get_object_or_404(
+        Reserva,
+        codigo=codigo
+    )
+
+    total = reserva.comic.precio * reserva.cantidad
+
+    return render(
+        request,
+        'comics/comprobante.html',
+        {
+            'reserva': reserva,
+            'total': total,
         }
     )

@@ -1,0 +1,86 @@
+{% extends 'comics/base.html' %}
+
+{% block title %}
+Comprobante de Reserva
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .comprobante {
+        max-width: 700px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .codigo {
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .total {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .dato {
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="comprobante">
+
+    <h1>Reserva realizada con éxito</h1>
+
+    <p>
+        Tu cómic quedó reservado para retiro en tienda.
+    </p>
+
+    <hr>
+
+    <p class="dato">
+        <strong>Código de reserva:</strong>
+        <span class="codigo">{{ reserva.codigo }}</span>
+    </p>
+
+    <p class="dato">
+        <strong>Cómic:</strong>
+        {{ reserva.comic.titulo }}
+    </p>
+
+    <p class="dato">
+        <strong>Nombre:</strong>
+        {{ reserva.nombre }}
+    </p>
+
+    <p class="dato">
+        <strong>RUT:</strong>
+        {{ reserva.rut }}
+    </p>
+
+    <p class="dato">
+        <strong>Cantidad:</strong>
+        {{ reserva.cantidad }}
+    </p>
+
+    <p class="dato">
+        <strong>Fecha de reserva:</strong>
+        {{ reserva.fecha_reserva }}
+    </p>
+
+    <p class="total">
+        Total: ${{ total }}
+    </p>
+
+    <p>
+        <a href="/">
+            Volver al catálogo
+        </a>
+    </p>
+
+</div>
+
+{% endblock %}
